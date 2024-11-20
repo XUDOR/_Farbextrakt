@@ -44,12 +44,37 @@ header {
 .file {
   margin-left: 1em;
   padding: 5px;
-  border: 2px solid #87857B;
+  border: 1px solid #87857B;
+  display: flex;
   align-items: center;
   justify-content: center;
-  text-align: left;
+}
+
+.file label {
+  cursor: pointer;
+  background-color: #87857B;
+  color: white;
+  padding: 0.5em 1em;
+  border-radius: 2px;
+  font-size: 0.9em;
+}
+
+.file label:hover {
+  background-color: #6c6a63;
+}
+
+.Modulus {
+  margin-left: 1em;
+  padding: 5px;
+  border: 1px solid #87857B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
 }
+
+
+
 
 
 footer {
@@ -83,6 +108,8 @@ footer {
   border: 2px solid #C2C4BB;
   height: 500px;
   color: #617068;
+  margin-bottom: 0;
+  /* Ensure no extra space below */
 
 }
 
@@ -95,9 +122,28 @@ footer {
   border: 2px solid #C2C4BB;
   height: 500px;
   color: #617068;
+}
 
+
+.Information {
+  margin-top: 0.2rem;
+  /* Adjust spacing between PictureCont and Information */
+  padding-top: 1rem;
+}
+
+.Information-Mobile {
+  display: none;
+}
+
+.infoCont {
+  padding: 3px;
+  border: 2px solid #C2C4BB;
+  color: #707069;
+  font-size: .85em;
+  font-weight: lighter;
 
 }
+
 
 /* Responsive for mobile */
 @media screen and (max-width: 768px) {
@@ -108,23 +154,43 @@ footer {
 
   header {
     padding: .7em;
-    
+
   }
 
   .HeadCont {
     flex-direction: column;
+    margin-bottom: 5px;
 
   }
 
   .HeadTag {
     text-align: center;
     border-right: none;
+    margin-bottom: 5px;
+  }
+
+  .file {
+    margin-bottom: 10px;
+  }
+
+  .Modulus {
+    margin-bottom: 5px;
+    padding: 10px;
   }
 
   .container {
     padding: .3em;
     grid-template-columns: 1fr;
   }
+
+  .Information-Mobile {
+    display: contents;
+  }
+
+  .Information {
+    display: none;
+  }
+
 
 
   /* Updated footer for consistent bottom positioning */

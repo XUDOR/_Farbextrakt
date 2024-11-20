@@ -11,7 +11,22 @@
   <header>
     <div class="HeadCont">
     <div class="HeadTag">Farbextrakt</div>
-    <div class="file">File</div>
+    <div class="file">
+      <label for="imageUpload">Choose an Image</label>
+      <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+    </div>
+    <div class="Modulus">
+      <label for="modulusInput">Modulus: </label>
+      <input type="number" id="modulusInput" min="1" value="1" style="width: 5em;">
+    </div>
+
+    <section class="Information-Mobile">
+      <div class="infoCont">
+        <p><strong>Sample Count:</strong> <span id="sampleCount">0</span></p>
+      </div>
+    </section>
+    
+    
     </div>
   </header>
 
@@ -25,7 +40,12 @@
       <section class="side-content">
         <div class="HexCont">Hex Output</div>
         
-      </section>
+        <section class="Information">
+          <div class="infoCont">
+            <p><strong>Sample Count:</strong> <span id="sampleCount">0</span></p>
+          </div>
+        </section>
+        
     </div>
   </main>
 
