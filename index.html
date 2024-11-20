@@ -20,14 +20,20 @@
         <input type="number" id="modulusInput" min="1" value="1" style="width: 5em;">
       </div>
   
-      <!-- Only one information container -->
-      <section class="Information">
+      <section class="Information-Mobile">
         <div class="infoCont">
           <p><strong>Sample Count:</strong> <span id="sampleCount">0</span></p>
         </div>
       </section>
+  
+      <!-- Progress Bar for image processing -->
+      <div class="progress-container">
+        <label for="progressBar">Processing...</label>
+        <progress id="progressBar" value="0" max="100"></progress>
+      </div>
     </div>
   </header>
+  
   
   <main>
     <div class="container">

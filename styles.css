@@ -88,6 +88,41 @@ header {
   font-weight: lighter;
 }
 
+/* Progress bar styles */
+.progress-container {
+  margin-top: 1em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+progress {
+  width: 100%;
+  height: 20px;
+  margin-top: 10px;
+  appearance: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #4caf50; /* Green color */
+  border-radius: 5px;
+}
+
+progress::-moz-progress-bar {
+  background-color: #4caf50;
+  border-radius: 5px;
+}
+
+
+
 footer {
   background: #F4F4EA;
   color: #BDC2C6;
