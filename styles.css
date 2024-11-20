@@ -1,0 +1,102 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body and general layout */
+body {
+  font-family: 'Menlo', 'Monaco', monospace;
+  /* Monospaced font similar to Menlo */
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #FBFBF4;
+}
+
+header {
+  background: #F4F4EA;
+  padding: 1rem;
+  border-bottom: 3px solid #F2F2E7;
+  text-align: left;
+}
+
+.HeadTag {
+  font-size: 2em;
+  font-weight: bold;
+  color: #D8DCD2;
+  text-align: left;
+  border-right: 2px solid #BDC2C6;
+
+}
+
+footer {
+  background: #F4F4EA;
+  color: #BDC2C6;
+  text-align: right;
+  padding: .5rem;
+  font-size: 1em;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+/* Main container using grid */
+.container {
+  display: grid;
+  grid-template-columns: 75% 25%;
+  gap: .5rem;
+  padding: 2rem;
+  flex-grow: 1;
+}
+
+/* Main content section */
+.main-content {
+  padding: 1rem;
+}
+
+.PictureCont {
+  padding: 10px;
+  border: 2px solid #C2C4BB;
+  height: 500px;
+  color: #617068;
+
+}
+
+.side-content {
+  padding: 1rem;
+}
+
+.HexCont {
+  padding: 10px;
+  border: 2px solid #C2C4BB;
+  height: 500px;
+  color: #617068;
+
+
+}
+
+
+
+/* Responsive for mobile */
+@media screen and (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+
+  footer {
+    text-align: center;
+    font-size: .8em;
+  }
+
+
+}
