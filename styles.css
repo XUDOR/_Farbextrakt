@@ -29,8 +29,28 @@ header {
   color: #D8DCD2;
   text-align: left;
   border-right: 2px solid #BDC2C6;
+  padding-right: .4em;
 
 }
+
+.HeadCont {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+
+
+.file {
+  margin-left: 1em;
+  padding: 5px;
+  border: 2px solid #87857B;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+
+}
+
 
 footer {
   background: #F4F4EA;
@@ -88,6 +108,17 @@ footer {
 
   header {
     padding: .7em;
+    
+  }
+
+  .HeadCont {
+    flex-direction: column;
+
+  }
+
+  .HeadTag {
+    text-align: center;
+    border-right: none;
   }
 
   .container {
@@ -97,16 +128,18 @@ footer {
 
 
   /* Updated footer for consistent bottom positioning */
-footer {
-  background: #F4F4EA;
-  color: #BDC2C6;
-  text-align: right;
-  padding: 0.5rem;
-  font-size: 1em;
-  width: 100%;
-  margin-top: auto; /* Ensures footer pushes to the bottom */
-  position: static; /* Removes absolute positioning */
-}
+  footer {
+    background: #F4F4EA;
+    color: #BDC2C6;
+    text-align: right;
+    padding: 0.5rem;
+    font-size: 1em;
+    width: 100%;
+    margin-top: auto;
+    /* Ensures footer pushes to the bottom */
+    position: static;
+    /* Removes absolute positioning */
+  }
 
 
 
