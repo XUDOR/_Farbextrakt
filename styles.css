@@ -62,25 +62,28 @@ header {
 
 /* Modulus input styles */
 .Modulus {
-  margin-left: 1em;
+  margin-left: .5em;
   padding: 5px;
   border: 1px solid #87857B;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.8em;
+  font-weight: lighter;
 }
 
 /* Controls styles */
 .controls {
-  margin-left: 1em;
+  margin-left: .5em;
   display: flex;
   align-items: center;
 }
 
 .controls button {
+
   margin-right: 0.5em;
   padding: 0.5em 1em;
-  font-size: 0.9em;
+  font-size: 0.8em;
   cursor: pointer;
 }
 
@@ -94,10 +97,17 @@ header {
   align-items: center;
 }
 
+.toggle-label {
+  margin-left: 2px;
+  padding: 7px;
+  border: 1px solid #87857B;
+  font-size: .7em;
+}
+
 /* Information styles */
 .infoCont {
-  margin-left: 1em;
-  padding: 12px;
+  margin-left: .5em;
+  padding: 5px;
   border: 1px solid #87857B;
   display: flex;
   align-items: center;
@@ -106,9 +116,22 @@ header {
   font-weight: lighter;
 }
 
-.Information-Mobile {
+.Information {
   display: flex;
   flex-wrap: wrap;
+}
+
+.infoText {
+  padding: 2px;
+  font-size: .9em;
+  color: #443E35;
+}
+
+.infoText-copy {
+  padding: 2px;
+  font-size: .9em;
+  font-weight: bold;
+  color: #515105;
 }
 
 /* Progress bar styles */
@@ -117,17 +140,20 @@ header {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: last baseline;
+  font-size: .7em;
+  text-align: left;
 }
 
 progress {
   width: 100%;
-  height: 20px;
+  height: 10px;
   margin-top: 10px;
   appearance: none;
   border-radius: 5px;
   background-color: #f0f0f0;
 }
+
 
 progress::-webkit-progress-bar {
   background-color: #f0f0f0;

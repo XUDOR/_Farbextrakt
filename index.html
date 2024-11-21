@@ -16,25 +16,26 @@
         <input type="file" id="imageUpload" accept="image/*" style="display: none;">
       </div>
       <div class="Modulus">
-        <label for="modulusInput">Modulus: </label>
+        <label for="modulusInput">%: </label>
         <input type="number" id="modulusInput" min="1" value="500" style="width: 5em;">
       </div>
       <!-- Added Controls -->
       <div class="controls">
         <button id="ejectButton" style="color: #903336;">Eject</button>
         <button id="downloadJsonButton">Download JSON</button>
-        <label>
+        <!-- Updated label with class and adjusted structure -->
+        <label class="toggle-label">
           <input type="checkbox" id="toggleView">
-          Grid View
+          <span>Grid View</span>
         </label>
       </div>
 
-      <section class="Information-Mobile">
+      <section class="Information">
         <div class="infoCont">
-          <p><strong>Sample Count:</strong> <span id="sampleCount">0</span></p>
+          <div class="infoText" Count:>Samples: <span id="sampleCount">0</span></div>
         </div>
         <div class="infoCont">
-          <p><strong>Copied Hex:</strong> <span id="copiedHex">None</span></p>
+          <div class="infoText-copy">Copied Hex:<span id="copiedHex">None</span></div>
         </div>
       </section>
 
