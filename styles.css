@@ -8,7 +8,6 @@
 /* Body and general layout */
 body {
   font-family: 'Menlo', 'Monaco', monospace;
-  /* Monospaced font similar to Menlo */
   line-height: 1.6;
   min-height: 100vh;
   display: flex;
@@ -30,7 +29,6 @@ header {
   text-align: left;
   border-right: 2px solid #BDC2C6;
   padding-right: .4em;
-
 }
 
 .HeadCont {
@@ -38,8 +36,6 @@ header {
   flex-direction: row;
   flex-wrap: wrap;
 }
-
-
 
 .file {
   margin-left: 1em;
@@ -70,11 +66,6 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-
-}
-
-.Information {
-  
 }
 
 .infoCont {
@@ -86,6 +77,11 @@ header {
   justify-content: center;
   font-size: .9em;
   font-weight: lighter;
+}
+
+.Information-Mobile {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* Progress bar styles */
@@ -112,7 +108,7 @@ progress::-webkit-progress-bar {
 }
 
 progress::-webkit-progress-value {
-  background-color: #4caf50; /* Green color */
+  background-color: #4caf50;
   border-radius: 5px;
 }
 
@@ -120,8 +116,6 @@ progress::-moz-progress-bar {
   background-color: #4caf50;
   border-radius: 5px;
 }
-
-
 
 footer {
   background: #F4F4EA;
@@ -152,11 +146,10 @@ footer {
 .PictureCont {
   padding: 10px;
   border: 2px solid #C2C4BB;
-  height: 500px;
+  height: calc(100vh - 200px);
   color: #617068;
   margin-bottom: 0;
-  /* Ensure no extra space below */
-
+  overflow: auto;
 }
 
 .side-content {
@@ -166,30 +159,24 @@ footer {
 .HexCont {
   padding: 10px;
   border: 2px solid #C2C4BB;
-  height: 500px;
+  height: calc(100vh - 200px);
   color: #617068;
+  overflow-y: auto;
 }
-
-
-
-
 
 /* Responsive for mobile */
 @media screen and (max-width: 768px) {
   body {
     overflow-x: hidden;
-
   }
 
   header {
     padding: .7em;
-
   }
 
   .HeadCont {
     flex-direction: column;
     margin-bottom: 5px;
-
   }
 
   .HeadTag {
@@ -212,13 +199,10 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  
+  .PictureCont, .HexCont {
+    height: 300px;
+  }
 
-  
-
-
-
-  /* Updated footer for consistent bottom positioning */
   footer {
     background: #F4F4EA;
     color: #BDC2C6;
@@ -227,11 +211,6 @@ footer {
     font-size: 1em;
     width: 100%;
     margin-top: auto;
-    /* Ensures footer pushes to the bottom */
     position: static;
-    /* Removes absolute positioning */
   }
-
-
-
 }

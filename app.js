@@ -3,70 +3,137 @@ document.addEventListener('DOMContentLoaded', function () {
   const sampleCountSpan = document.getElementById('sampleCount');
   const modulusInput = document.getElementById('modulusInput');
   const progressBar = document.getElementById('progressBar');
-  
-  // To hold the image's pixel data as an array
+  const hexOutputDiv = document.querySelector('.HexCont');
+  const pictureContainer = document.querySelector('.PictureCont');
+  const copiedHexSpan = document.getElementById('copiedHex');
+
   let imageDataArray = [];
 
-  // Function to load the image and process the pixels
-  const loadImageData = (img) => {
-    const modulus = Math.max(1, parseInt(modulusInput.value, 10)); // Ensure modulus is at least 1
+  const loadImageData = (canvas) => {
+    const modulus = Math.max(1, parseInt(modulusInput.value, 10));
     console.log(`Processing image with modulus: ${modulus}`);
 
-    const width = img.width;
-    const height = img.height;
-    const totalPixels = width * height;
+    const width = canvas.width;
+    const height = canvas.height;
+    const ctx = canvas.getContext('2d');
+    const totalPixels = Math.floor(width / modulus) * Math.floor(height / modulus);
+
+    const imageData = ctx.getImageData(0, 0, width, height);
+    const data = imageData.data;
+
+    let y = 0;
     let processedPixels = 0;
     let lastProcessedPercentage = 0;
 
-    // Loop over pixels with modulus applied
-    for (let y = 0; y < height; y += modulus) {
-      for (let x = 0; x < width; x += modulus) {
-        const pixel = img.getContext('2d').getImageData(x, y, 1, 1).data;
-        imageDataArray.push(pixel);
+    imageDataArray = [];
 
-        processedPixels++;
-        const progress = Math.floor((processedPixels / totalPixels) * 100);
-        
-        // Update progress bar every 3% change
-        if (progress - lastProcessedPercentage >= 3) {
-          lastProcessedPercentage = progress;
-          console.log(`Progress: ${progress}%`);
-          progressBar.value = progress;
+    function processChunk() {
+      const chunkSize = 100;
+      let endY = Math.min(y + chunkSize * modulus, height);
+
+      for (; y < endY; y += modulus) {
+        for (let x = 0; x < width; x += modulus) {
+          const index = (y * width + x) * 4;
+          const r = data[index];
+          const g = data[index + 1];
+          const b = data[index + 2];
+
+          const hex = '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+          imageDataArray.push(hex);
+
+          processedPixels++;
         }
+      }
+
+      const progress = Math.floor((processedPixels / totalPixels) * 100);
+      if (progress - lastProcessedPercentage >= 1) {
+        lastProcessedPercentage = progress;
+        progressBar.value = progress;
+      }
+
+      if (y < height) {
+        setTimeout(processChunk, 0);
+      } else {
+        const sampleCount = imageDataArray.length;
+        sampleCountSpan.textContent = sampleCount.toLocaleString();
+        console.log(`Total samples processed: ${sampleCount}`);
+
+        displayHexColors();
       }
     }
 
-    // Update the sample count
-    const sampleCount = imageDataArray.length;
-    sampleCountSpan.textContent = sampleCount.toLocaleString();
-    console.log(`Total samples processed: ${sampleCount}`);
+    processChunk();
   };
 
-  // Handle image file input change
+  function displayHexColors() {
+    hexOutputDiv.innerHTML = '';
+
+    // Remove duplicates to get unique colors
+    const uniqueColors = [...new Set(imageDataArray)];
+
+    uniqueColors.forEach(hex => {
+      const colorDiv = document.createElement('div');
+      colorDiv.textContent = hex;
+      colorDiv.style.backgroundColor = hex;
+      colorDiv.style.color = '#fff';
+      colorDiv.style.padding = '5px';
+      colorDiv.style.marginBottom = '2px';
+      colorDiv.style.cursor = 'pointer';
+
+      // Add click event to copy hex code
+      colorDiv.addEventListener('click', function () {
+        copyToClipboard(hex);
+        highlightSelection(colorDiv);
+      });
+
+      hexOutputDiv.appendChild(colorDiv);
+    });
+  }
+
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function () {
+      console.log(`Copied ${text} to clipboard.`);
+      copiedHexSpan.textContent = text;
+    }, function (err) {
+      console.error('Could not copy text: ', err);
+    });
+  }
+
+  let lastSelectedDiv = null;
+  function highlightSelection(div) {
+    if (lastSelectedDiv) {
+      lastSelectedDiv.style.border = 'none';
+    }
+    div.style.border = '2px solid gray';
+    lastSelectedDiv = div;
+  }
+
   imageInput.addEventListener('change', function (event) {
     const file = event.target.files[0];
 
     if (file) {
       const reader = new FileReader();
 
-      // Load the file and display it as an image
       reader.onload = function (e) {
         const img = new Image();
 
         img.onload = function () {
           console.log('Image loaded successfully.');
 
-          // Create an invisible canvas to get the pixel data
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
           canvas.width = img.width;
           canvas.height = img.height;
 
-          // Draw the image on the canvas to extract pixel data
           ctx.drawImage(img, 0, 0);
 
-          // Process image data (without displaying the image)
-          loadImageData(ctx);
+          // Display the image in the PictureCont div
+          pictureContainer.innerHTML = '';
+          img.style.maxWidth = '100%';
+          img.style.height = 'auto';
+          pictureContainer.appendChild(img);
+
+          loadImageData(canvas);
         };
 
         img.src = e.target.result;

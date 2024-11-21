@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Farbextrakt</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -19,13 +18,16 @@
         <label for="modulusInput">Modulus: </label>
         <input type="number" id="modulusInput" min="1" value="1" style="width: 5em;">
       </div>
-  
+
       <section class="Information-Mobile">
         <div class="infoCont">
           <p><strong>Sample Count:</strong> <span id="sampleCount">0</span></p>
         </div>
+        <div class="infoCont">
+          <p><strong>Copied Hex:</strong> <span id="copiedHex">None</span></p>
+        </div>
       </section>
-  
+
       <!-- Progress Bar for image processing -->
       <div class="progress-container">
         <label for="progressBar">Processing...</label>
@@ -33,24 +35,22 @@
       </div>
     </div>
   </header>
-  
-  
+
   <main>
     <div class="container">
       <section class="main-content">
         <div class="PictureCont">Picture</div>
       </section>
-  
+
       <section class="side-content">
         <div class="HexCont">Hex Output</div>
       </section>
     </div>
   </main>
-  
+
   <footer>
     <p>© 2024 Farbextrakt. || RDXENV : Roderick Shoolbraid | All rights reserved.</p>
   </footer>
   <script src="app.js"></script>
-  </body>
-  </html>
-  
+</body>
+</html>
