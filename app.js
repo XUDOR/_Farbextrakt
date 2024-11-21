@@ -9,14 +9,20 @@ document.addEventListener('DOMContentLoaded', function () {
   const ejectButton = document.getElementById('ejectButton');
   const downloadJsonButton = document.getElementById('downloadJsonButton');
   const toggleViewCheckbox = document.getElementById('toggleView');
+  const selectionOverlay = document.getElementById('selectionOverlay');
+  const keypadKeys = document.querySelectorAll('.key');
+  const applySelectionButton = document.getElementById('applySelectionButton');
 
   let imageDataArray = [];
   let loadedImage = null;
   let lastSelectedDiv = null;
   let uniqueColors = [];
   let isGridView = false;
+  let selectedKey = null;
+  let imageWidth = 0;
+  let imageHeight = 0;
 
-  const loadImageData = (img) => {
+  const loadImageData = (img, area = null) => {
     // Reset outputs
     progressBar.value = 0;
     hexOutputDiv.innerHTML = '';
@@ -29,7 +35,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     let modulusValue = parseInt(modulusInput.value, 10);
-    const modulus = Math.max(1, modulusValue);
+    // Ensure modulus is at least 50
+    const modulus = Math.max(50, modulusValue);
+    modulusInput.value = modulus;
     console.log(`Processing image with modulus: ${modulus}`);
 
     // Create a canvas to get image data
@@ -39,37 +47,62 @@ document.addEventListener('DOMContentLoaded', function () {
     canvas.height = img.naturalHeight || img.height;
     ctx.drawImage(img, 0, 0);
 
+    imageWidth = canvas.width;
+    imageHeight = canvas.height;
+
+    let startX = 0;
+    let startY = 0;
+    let endX = imageWidth;
+    let endY = imageHeight;
+
+    // Calculate area based on selected key
+    if (area) {
+      const divisions = 4; // 4x4 grid
+      const cellWidth = imageWidth / divisions;
+      const cellHeight = imageHeight / divisions;
+
+      const col = (area - 1) % divisions;
+      const row = Math.floor((area - 1) / divisions);
+
+      startX = Math.floor(col * cellWidth);
+      startY = Math.floor(row * cellHeight);
+      endX = Math.floor(startX + cellWidth);
+      endY = Math.floor(startY + cellHeight);
+
+      // Ensure endX and endY do not exceed image dimensions
+      endX = Math.min(endX, imageWidth);
+      endY = Math.min(endY, imageHeight);
+
+      // Draw overlay
+      selectionOverlay.style.display = 'block';
+      selectionOverlay.style.left = `${(startX / imageWidth) * 100}%`;
+      selectionOverlay.style.top = `${(startY / imageHeight) * 100}%`;
+      selectionOverlay.style.width = `${(cellWidth / imageWidth) * 100}%`;
+      selectionOverlay.style.height = `${(cellHeight / imageHeight) * 100}%`;
+    } else {
+      // Hide overlay if no area is selected
+      selectionOverlay.style.display = 'none';
+    }
+
     const width = canvas.width;
     const height = canvas.height;
 
-    // Safety check for modulus
-    const maxPixels = 500000; // Set a maximum number of pixels to process
-    const imageArea = width * height;
-    const estimatedSamples = imageArea / (modulus * modulus);
-
-    if (estimatedSamples > maxPixels) {
-      alert('Modulus value too low for this image size. Adjusting to prevent performance issues.');
-      const adjustedModulus = Math.ceil(Math.sqrt(imageArea / maxPixels));
-      modulusInput.value = adjustedModulus;
-      modulusValue = adjustedModulus;
-    }
-
-    const totalPixels = Math.floor(width / modulus) * Math.floor(height / modulus);
+    const totalPixels = Math.floor((endX - startX) / modulus) * Math.floor((endY - startY) / modulus);
 
     const imageData = ctx.getImageData(0, 0, width, height);
     const data = imageData.data;
 
-    let y = 0;
+    let y = startY;
     let processedPixels = 0;
     let lastProcessedPercentage = 0;
 
     function processChunk() {
       const chunkSize = 100;
-      let endY = Math.min(y + chunkSize * modulus, height);
+      let endChunkY = Math.min(y + chunkSize * modulus, endY);
 
-      for (; y < endY; y += modulus) {
-        for (let x = 0; x < width; x += modulus) {
-          const index = (y * width + x) * 4;
+      for (; y < endChunkY; y += modulus) {
+        for (let x = startX; x < endX; x += modulus) {
+          const index = (Math.floor(y) * width + Math.floor(x)) * 4;
           const r = data[index];
           const g = data[index + 1];
           const b = data[index + 2];
@@ -87,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
         progressBar.value = progress;
       }
 
-      if (y < height) {
+      if (y < endY) {
         setTimeout(processChunk, 0);
       } else {
         const sampleCount = imageDataArray.length;
@@ -170,6 +203,9 @@ document.addEventListener('DOMContentLoaded', function () {
           img.style.height = 'auto';
           pictureContainer.appendChild(img);
 
+          // Append overlay
+          pictureContainer.appendChild(selectionOverlay);
+
           // Store loaded image
           loadedImage = img;
 
@@ -186,7 +222,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // Redraw when modulus changes
   modulusInput.addEventListener('change', function () {
     if (loadedImage) {
-      loadImageData(loadedImage);
+      // Ensure modulus is at least 50
+      let modulusValue = parseInt(modulusInput.value, 10);
+      modulusInput.value = Math.max(50, modulusValue);
+      loadImageData(loadedImage, selectedKey);
     }
   });
 
@@ -195,6 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Reset variables
     loadedImage = null;
     imageDataArray = [];
+    selectedKey = null;
 
     // Clear outputs
     pictureContainer.innerHTML = '';
@@ -203,10 +243,15 @@ document.addEventListener('DOMContentLoaded', function () {
     copiedHexSpan.textContent = 'None';
     progressBar.value = 0;
 
+    selectionOverlay.style.display = 'none';
+
     if (lastSelectedDiv) {
       lastSelectedDiv.style.border = 'none';
       lastSelectedDiv = null;
     }
+
+    // Reset keypad selection
+    keypadKeys.forEach(k => k.classList.remove('selected'));
 
     // Reset file input
     imageInput.value = '';
@@ -240,10 +285,32 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Toggle view functionality
-  toggleViewCheckbox.addEventListener('change', function () {
+  toggleViewCheckbox?.addEventListener('change', function () {
     isGridView = toggleViewCheckbox.checked;
     if (uniqueColors.length > 0) {
       displayHexColors();
     }
+  });
+
+  // Keypad functionality
+  keypadKeys.forEach(key => {
+    key.addEventListener('click', function () {
+      keypadKeys.forEach(k => k.classList.remove('selected'));
+      key.classList.add('selected');
+      selectedKey = parseInt(key.getAttribute('data-key'), 10);
+    });
+  });
+
+  // Apply selection button functionality
+  applySelectionButton.addEventListener('click', function () {
+    if (!loadedImage) {
+      alert('Please load an image first.');
+      return;
+    }
+    if (!selectedKey) {
+      alert('Please select a section using the keypad.');
+      return;
+    }
+    loadImageData(loadedImage, selectedKey);
   });
 });

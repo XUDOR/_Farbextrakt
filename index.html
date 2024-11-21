@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Farbextrakt</title>
-  <!-- Added meta viewport tag for mobile responsiveness -->
+  <!-- Meta viewport tag for mobile responsiveness -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Link to your external CSS file -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,32 +14,57 @@
       <div class="HeadTag">Farbextrakt</div>
       <div class="file">
         <label for="imageUpload">Choose an Image</label>
-        <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+        <input type="file" id="imageUpload" accept="image/*">
       </div>
       <div class="Modulus">
-        <label for="modulusInput">%: </label>
-        <input type="number" id="modulusInput" min="1" value="500" style="width: 5em;">
+        <label for="modulusInput">%:</label>
+        <!-- Set the minimum value to 50 -->
+        <input type="number" id="modulusInput" min="50" value="500">
       </div>
-      <!-- Added Controls -->
+      <!-- Controls -->
       <div class="controls">
-        <button id="ejectButton" style="color: #903336;">Eject</button>
+        <button id="ejectButton" class="eject-button">Eject</button>
         <button id="downloadJsonButton">Download JSON</button>
-        <!-- Updated label with class and adjusted structure -->
         <label class="toggle-label">
           <input type="checkbox" id="toggleView">
           <span>Grid View</span>
         </label>
       </div>
-
-      <section class="Information">
+      <!-- 4x4 Grid Keypad -->
+      <div class="keypad-container">
+        <div class="keypad">
+          <!-- Generate 16 buttons arranged to match the image quadrants -->
+          <!-- Top row (areas 1-4) -->
+          <div class="key" data-key="1">1</div>
+          <div class="key" data-key="2">2</div>
+          <div class="key" data-key="3">3</div>
+          <div class="key" data-key="4">4</div>
+          <!-- Second row (areas 5-8) -->
+          <div class="key" data-key="5">5</div>
+          <div class="key" data-key="6">6</div>
+          <div class="key" data-key="7">7</div>
+          <div class="key" data-key="8">8</div>
+          <!-- Third row (areas 9-12) -->
+          <div class="key" data-key="9">9</div>
+          <div class="key" data-key="10">10</div>
+          <div class="key" data-key="11">11</div>
+          <div class="key" data-key="12">12</div>
+          <!-- Bottom row (areas 13-16) -->
+          <div class="key" data-key="13">13</div>
+          <div class="key" data-key="14">14</div>
+          <div class="key" data-key="15">15</div>
+          <div class="key" data-key="16">16</div>
+        </div>
+        <button id="applySelectionButton">Apply</button>
+      </div>
+      <div class="Information">
         <div class="infoCont">
-          <div class="infoText" Count:>Samples: <span id="sampleCount">0</span></div>
+          <div class="infoText">Samples: <span id="sampleCount">0</span></div>
         </div>
         <div class="infoCont">
-          <div class="infoText-copy">Copied Hex:<span id="copiedHex">None</span></div>
+          <div class="infoText-copy">Copied Hex: <span id="copiedHex">None</span></div>
         </div>
-      </section>
-
+      </div>
       <!-- Progress Bar for image processing -->
       <div class="progress-container">
         <label for="progressBar">Processing...</label>
@@ -51,7 +77,10 @@
     <div class="container">
       <section class="main-content">
         <!-- Start without the img tag -->
-        <div class="PictureCont"></div>
+        <div class="PictureCont">
+          <!-- Overlay for selected area -->
+          <div id="selectionOverlay"></div>
+        </div>
       </section>
 
       <section class="side-content">
@@ -60,9 +89,14 @@
     </div>
   </main>
 
+  <!-- Collapsible Footer -->
   <footer>
-    <p>© 2024 Farbextrakt. || RDXENV : Roderick Shoolbraid | All rights reserved.</p>
+    <details>
+      <summary>© 2024 Farbextrakt. || RDXENV : Roderick Shoolbraid | All rights reserved.</summary>
+      <!-- Additional footer content if any -->
+    </details>
   </footer>
+
   <script src="app.js"></script>
 </body>
 </html>

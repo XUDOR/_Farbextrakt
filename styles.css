@@ -23,30 +23,102 @@ header {
   text-align: left;
 }
 
+.HeadCont {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto auto;
+  gap: 0.5em;
+  align-items: center;
+}
+
+/* HeadTag spans all columns */
 .HeadTag {
+  grid-column: 1 / -1;
   font-size: 2em;
   font-weight: bold;
   color: #D8DCD2;
-  border-right: 2px solid #BDC2C6;
-  padding-right: 0.4em;
+  border-bottom: 2px solid #BDC2C6;
+  padding-bottom: 0.4em;
+  text-align: center;
 }
 
-.HeadCont {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-/* File input styles */
+/* Navigation items */
 .file {
-  margin-left: 1em;
-  padding: 5px;
-  border: 1px solid #87857B;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.Modulus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eject {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sample {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copied {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Arrange navigation items in the grid */
+.file {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.Modulus {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.eject {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.download {
+  grid-column: 4;
+  grid-row: 2;
+}
+
+.sample {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.copied {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.keypad-container {
+  grid-column: 3 / span 2;
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* File input styles */
 .file label {
   cursor: pointer;
   background-color: #87857B;
@@ -60,100 +132,133 @@ header {
   background-color: #6c6a63;
 }
 
+#imageUpload {
+  display: none;
+}
+
 /* Modulus input styles */
-.Modulus {
-  margin-left: .5em;
-  padding: 5px;
+.Modulus label {
+  margin-right: 0.2em;
+  font-size: 0.9em;
+}
+
+#modulusInput {
+  width: 4em;
+  color: #35342A;
+  margin: 0;
+  padding: 2px 4px;
   border: 1px solid #87857B;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8em;
-  font-weight: lighter;
+  border-radius: 3px;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+#modulusInput::-webkit-inner-spin-button,
+#modulusInput::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /* Controls styles */
-.controls {
-  margin-left: .5em;
-  display: flex;
-  align-items: center;
-}
-
-.controls button {
-
-  margin-right: 0.5em;
+.eject-button {
   padding: 0.5em 1em;
   font-size: 0.8em;
   cursor: pointer;
+  border: 1px solid #87857B;
+  border-radius: 3px;
+  background-color: #FFF;
+  color: #903336;
 }
 
-.controls button:hover {
+.eject-button:hover {
   background-color: #e0e0e0;
 }
 
-.controls label {
-  margin-left: 0.5em;
-  display: flex;
-  align-items: center;
+.download button {
+  padding: 0.5em 1em;
+  font-size: 0.8em;
+  cursor: pointer;
+  border: 1px solid #87857B;
+  border-radius: 3px;
+  background-color: #FFF;
 }
 
-.toggle-label {
-  margin-left: 2px;
-  padding: 7px;
-  border: 1px solid #87857B;
-  font-size: .7em;
+.download button:hover {
+  background-color: #e0e0e0;
 }
 
 /* Information styles */
-.infoCont {
-  margin-left: .5em;
-  padding: 5px;
-  border: 1px solid #87857B;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.infoText, .infoText-copy {
   font-size: 0.9em;
-  font-weight: lighter;
-}
-
-.Information {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.infoText {
-  padding: 2px;
-  font-size: .9em;
-  color: #443E35;
 }
 
 .infoText-copy {
-  padding: 2px;
-  font-size: .9em;
   font-weight: bold;
   color: #515105;
 }
 
+/* Keypad styles */
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 40px);
+  grid-gap: 5px;
+  justify-content: center;
+  margin-bottom: 0.5em;
+}
+
+.key {
+  width: 40px;
+  height: 40px;
+  background-color: #87857B;
+  color: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.8em;
+}
+
+.key.selected {
+  background-color: #6c6a63;
+}
+
+#applySelectionButton {
+  padding: 0.5em 1em;
+  font-size: 0.9em;
+  cursor: pointer;
+  border: 1px solid #87857B;
+  border-radius: 3px;
+  background-color: #FFF;
+}
+
+#applySelectionButton:hover {
+  background-color: #e0e0e0;
+}
+
 /* Progress bar styles */
 .progress-container {
+  grid-column: 1 / -1;
   margin-top: 1em;
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: last baseline;
-  font-size: .7em;
-  text-align: left;
+  align-items: center;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+.progress-container label {
+  margin-bottom: 0.5em;
 }
 
 progress {
-  width: 100%;
+  width: 80%;
   height: 10px;
-  margin-top: 10px;
   appearance: none;
   border-radius: 5px;
   background-color: #f0f0f0;
 }
-
 
 progress::-webkit-progress-bar {
   background-color: #f0f0f0;
@@ -176,19 +281,6 @@ main {
   padding-bottom: 2.5rem; /* Space for the footer height */
 }
 
-/* Footer styles */
-footer {
-  background: #F4F4EA;
-  color: #BDC2C6;
-  text-align: right;
-  padding: 0.5rem;
-  font-size: 0.9em;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-}
-
 /* Main container using grid */
 .container {
   display: grid;
@@ -200,17 +292,32 @@ footer {
 /* Main content section */
 .main-content {
   padding: 1rem;
+  position: relative;
 }
 
 .PictureCont {
+  position: relative;
   padding: 10px;
   border: 2px solid #C2C4BB;
-  /* Adjusted height to account for fixed footer */
-  height: calc(100vh - 200px - 2.5rem); /* Subtract footer height */
+  /* Removed fixed height to allow the image to display fully */
   color: #617068;
   overflow: auto;
 }
 
+.PictureCont img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Overlay for selected area */
+#selectionOverlay {
+  position: absolute;
+  border: 3px solid grey; /* Increased border to 3px */
+  pointer-events: none;
+  display: none; /* Hidden by default */
+}
+
+/* side-content styles */
 .side-content {
   padding: 1rem;
 }
@@ -218,10 +325,18 @@ footer {
 .HexCont {
   padding: 10px;
   border: 2px solid #C2C4BB;
-  /* Adjusted height to account for fixed footer */
-  height: calc(100vh - 200px - 2.5rem); /* Subtract footer height */
+  /* Removed fixed height to allow content to expand */
   color: #617068;
   overflow-y: auto;
+}
+
+/* Style for each color block in HexCont */
+.HexCont div {
+  text-align: center;
+  padding: 5px;
+  color: #FFF;
+  margin-bottom: 2px;
+  cursor: pointer;
 }
 
 /* Grid view styles */
@@ -235,6 +350,28 @@ footer {
   margin: 2px;
 }
 
+/* Collapsible Footer styles */
+footer {
+  background: #F4F4EA;
+  color: #BDC2C6;
+  text-align: left; /* Align the summary to the left */
+  padding: 0.5rem;
+  font-size: 0.9em;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  border-top: 3px solid #F2F2E7;
+}
+
+footer details {
+  cursor: pointer;
+}
+
+footer summary {
+  outline: none;
+}
+
 /* Responsive styles for mobile */
 @media screen and (max-width: 768px) {
   body {
@@ -246,41 +383,51 @@ footer {
   }
 
   .HeadCont {
-    flex-direction: column;
-    margin-bottom: 5px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto auto auto;
   }
 
-  .HeadTag {
-    text-align: center;
-    border-right: none;
-    margin-bottom: 5px;
+  .keypad-container {
+    grid-column: 1 / -1;
   }
 
-  .file {
-    margin-bottom: 10px;
-  }
-
-  .Modulus {
-    margin-bottom: 5px;
-    padding: 10px;
-  }
-
-  .controls {
-    margin-bottom: 10px;
+  .progress-container {
+    grid-column: 1 / -1;
   }
 
   .container {
     padding: 0.3em;
     grid-template-columns: 1fr;
   }
+}
 
-  .PictureCont,
-  .HexCont {
-    height: calc(100vh - 200px - 3rem); /* Adjusted for mobile footer height */
-  }
+input, button {
+  font-family: inherit;
+  font-size: 1em;
+}
 
-  footer {
-    padding: 0.5rem;
-    font-size: .7em;
-  }
+button {
+  cursor: pointer;
+  border: 1px solid #87857B;
+  border-radius: 3px;
+  background-color: #FFF;
+  padding: 0.5em 1em;
+}
+
+button:hover {
+  background-color: #e0e0e0;
+}
+
+button:focus {
+  outline: none;
+}
+
+label {
+  font-size: 1em;
+  color: #443E35;
+}
+
+input:focus, select:focus, textarea:focus, button:focus {
+  outline: none;
+  border-color: #443E35;
 }
