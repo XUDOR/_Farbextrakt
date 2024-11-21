@@ -6,16 +6,54 @@ document.addEventListener('DOMContentLoaded', function () {
   const hexOutputDiv = document.querySelector('.HexCont');
   const pictureContainer = document.querySelector('.PictureCont');
   const copiedHexSpan = document.getElementById('copiedHex');
+  const ejectButton = document.getElementById('ejectButton');
+  const downloadJsonButton = document.getElementById('downloadJsonButton');
+  const toggleViewCheckbox = document.getElementById('toggleView');
 
   let imageDataArray = [];
+  let loadedImage = null;
+  let lastSelectedDiv = null;
+  let uniqueColors = [];
+  let isGridView = false;
 
-  const loadImageData = (canvas) => {
-    const modulus = Math.max(1, parseInt(modulusInput.value, 10));
+  const loadImageData = (img) => {
+    // Reset outputs
+    progressBar.value = 0;
+    hexOutputDiv.innerHTML = '';
+    imageDataArray = [];
+    sampleCountSpan.textContent = '0';
+    copiedHexSpan.textContent = 'None';
+    if (lastSelectedDiv) {
+      lastSelectedDiv.style.border = 'none';
+      lastSelectedDiv = null;
+    }
+
+    let modulusValue = parseInt(modulusInput.value, 10);
+    const modulus = Math.max(1, modulusValue);
     console.log(`Processing image with modulus: ${modulus}`);
+
+    // Create a canvas to get image data
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = img.naturalWidth || img.width;
+    canvas.height = img.naturalHeight || img.height;
+    ctx.drawImage(img, 0, 0);
 
     const width = canvas.width;
     const height = canvas.height;
-    const ctx = canvas.getContext('2d');
+
+    // Safety check for modulus
+    const maxPixels = 500000; // Set a maximum number of pixels to process
+    const imageArea = width * height;
+    const estimatedSamples = imageArea / (modulus * modulus);
+
+    if (estimatedSamples > maxPixels) {
+      alert('Modulus value too low for this image size. Adjusting to prevent performance issues.');
+      const adjustedModulus = Math.ceil(Math.sqrt(imageArea / maxPixels));
+      modulusInput.value = adjustedModulus;
+      modulusValue = adjustedModulus;
+    }
+
     const totalPixels = Math.floor(width / modulus) * Math.floor(height / modulus);
 
     const imageData = ctx.getImageData(0, 0, width, height);
@@ -24,8 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let y = 0;
     let processedPixels = 0;
     let lastProcessedPercentage = 0;
-
-    imageDataArray = [];
 
     function processChunk() {
       const chunkSize = 100;
@@ -69,7 +105,13 @@ document.addEventListener('DOMContentLoaded', function () {
     hexOutputDiv.innerHTML = '';
 
     // Remove duplicates to get unique colors
-    const uniqueColors = [...new Set(imageDataArray)];
+    uniqueColors = [...new Set(imageDataArray)];
+
+    if (isGridView) {
+      document.body.classList.add('grid-view');
+    } else {
+      document.body.classList.remove('grid-view');
+    }
 
     uniqueColors.forEach(hex => {
       const colorDiv = document.createElement('div');
@@ -79,6 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
       colorDiv.style.padding = '5px';
       colorDiv.style.marginBottom = '2px';
       colorDiv.style.cursor = 'pointer';
+      colorDiv.style.textAlign = 'center';
 
       // Add click event to copy hex code
       colorDiv.addEventListener('click', function () {
@@ -99,12 +142,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  let lastSelectedDiv = null;
   function highlightSelection(div) {
     if (lastSelectedDiv) {
       lastSelectedDiv.style.border = 'none';
     }
-    div.style.border = '2px solid gray';
+    div.style.border = '3px solid #443E35';
     lastSelectedDiv = div;
   }
 
@@ -120,26 +162,88 @@ document.addEventListener('DOMContentLoaded', function () {
         img.onload = function () {
           console.log('Image loaded successfully.');
 
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          canvas.width = img.width;
-          canvas.height = img.height;
-
-          ctx.drawImage(img, 0, 0);
-
-          // Display the image in the PictureCont div
+          // Clear any existing image
           pictureContainer.innerHTML = '';
+
+          // Display the image
           img.style.maxWidth = '100%';
           img.style.height = 'auto';
           pictureContainer.appendChild(img);
 
-          loadImageData(canvas);
+          // Store loaded image
+          loadedImage = img;
+
+          loadImageData(img);
         };
 
         img.src = e.target.result;
       };
 
       reader.readAsDataURL(file);
+    }
+  });
+
+  // Redraw when modulus changes
+  modulusInput.addEventListener('change', function () {
+    if (loadedImage) {
+      loadImageData(loadedImage);
+    }
+  });
+
+  // Eject button functionality
+  ejectButton.addEventListener('click', function () {
+    // Reset variables
+    loadedImage = null;
+    imageDataArray = [];
+
+    // Clear outputs
+    pictureContainer.innerHTML = '';
+    hexOutputDiv.innerHTML = 'Hex Output';
+    sampleCountSpan.textContent = '0';
+    copiedHexSpan.textContent = 'None';
+    progressBar.value = 0;
+
+    if (lastSelectedDiv) {
+      lastSelectedDiv.style.border = 'none';
+      lastSelectedDiv = null;
+    }
+
+    // Reset file input
+    imageInput.value = '';
+  });
+
+  // Download JSON functionality
+  downloadJsonButton.addEventListener('click', function () {
+    if (uniqueColors.length === 0) {
+      alert('No color data to download. Please load an image first.');
+      return;
+    }
+
+    if (confirm('Do you want to download the color data as a JSON file?')) {
+      // Prepare JSON data
+      const data = {
+        colors: uniqueColors
+      };
+      const json = JSON.stringify(data, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+
+      // Create a link and click it to trigger download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'colors.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  });
+
+  // Toggle view functionality
+  toggleViewCheckbox.addEventListener('change', function () {
+    isGridView = toggleViewCheckbox.checked;
+    if (uniqueColors.length > 0) {
+      displayHexColors();
     }
   });
 });
