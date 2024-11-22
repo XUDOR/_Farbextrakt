@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Farbextrakt</title>
@@ -8,29 +9,48 @@
   <!-- Link to your external CSS file -->
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <header>
     <div class="HeadCont">
-      <div class="HeadTag">Farbextrakt</div>
-      <div class="file">
-        <label for="imageUpload">Choose an Image</label>
-        <input type="file" id="imageUpload" accept="image/*">
-      </div>
-      <div class="Modulus">
-        <label for="modulusInput">%:</label>
-        <!-- Set the minimum value to 50 -->
-        <input type="number" id="modulusInput" min="50" value="500">
-      </div>
-      <!-- Controls -->
-      <div class="controls">
+
+      <div class="Headsection-1">
+        <div class="HeadTag">Farbextrakt</div>
+        <div class="file">
+          <label for="imageUpload">Choose an Image</label>
+          <input type="file" id="imageUpload" accept="image/*">
+        </div>
         <button id="ejectButton" class="eject-button">Eject</button>
-        <button id="downloadJsonButton">Download JSON</button>
-        <label class="toggle-label">
-          <input type="checkbox" id="toggleView">
-          <span>Grid View</span>
-        </label>
       </div>
-      <!-- 4x4 Grid Keypad -->
+
+      <div class="Headsection-2">
+        <div class="Modulus">
+          <label for="modulusInput">%:</label>
+          <!-- Set the minimum value to 50 -->
+          <input type="number" id="modulusInput" min="50" value="500">
+        </div>
+        <div class="Information">
+          <div class="infoCont">
+            <div class="infoText">Samples: <span id="sampleCount">0</span></div>
+          </div>
+          <div class="infoCont">
+            <div class="infoText-copy">Copied Hex: <span id="copiedHex">None</span></div>
+          </div>
+          <label class="toggle-label">
+            <input type="checkbox" id="toggleView">
+            <span>Grid View</span>
+          </label>
+        </div>
+      </div>
+      <div class="Headsection-3">
+        <!-- Controls -->
+        <div class="controls">
+          <button id="downloadJsonButton">Download JSON</button>
+          <button id="CopyJsonButton">Copy JSON</button>
+        </div>
+      </div>
+      <div class="Headsection-4">
+        <!-- 4x4 Grid Keypad -->
       <div class="keypad-container">
         <div class="keypad">
           <!-- Generate 16 buttons arranged to match the image quadrants -->
@@ -57,14 +77,13 @@
         </div>
         <button id="applySelectionButton">Apply</button>
       </div>
-      <div class="Information">
-        <div class="infoCont">
-          <div class="infoText">Samples: <span id="sampleCount">0</span></div>
-        </div>
-        <div class="infoCont">
-          <div class="infoText-copy">Copied Hex: <span id="copiedHex">None</span></div>
-        </div>
+
       </div>
+    </div>
+
+
+      
+
       <!-- Progress Bar for image processing -->
       <div class="progress-container">
         <label for="progressBar">Processing...</label>
@@ -99,4 +118,5 @@
 
   <script src="app.js"></script>
 </body>
+
 </html>

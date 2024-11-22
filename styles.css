@@ -29,6 +29,17 @@ header {
   grid-template-rows: auto auto auto;
   gap: 0.5em;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.Headsection-1,
+.Headsection-2,
+.Headsection-3,
+.Headsection-4
+
+{
+  border: 1px solid #35342A;
+  padding: 5px;
 }
 
 /* HeadTag spans all columns */
@@ -38,28 +49,25 @@ header {
   font-weight: bold;
   color: #D8DCD2;
   border-bottom: 2px solid #BDC2C6;
-  padding-bottom: 0.4em;
+  padding-bottom: 0.2em;
+  margin-bottom: .3em;
   text-align: center;
 }
 
 /* Navigation items */
 .file {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: left;
 }
 
 .Modulus {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
 }
 
-.eject {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 
 .download {
   display: flex;
@@ -68,6 +76,7 @@ header {
 }
 
 .sample {
+  margin: .2em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,7 +132,7 @@ header {
   cursor: pointer;
   background-color: #87857B;
   color: white;
-  padding: 0.5em 1em;
+  padding: 0.2em 1em;
   border-radius: 2px;
   font-size: 0.9em;
 }
@@ -160,8 +169,14 @@ header {
 }
 
 /* Controls styles */
+.controls {
+  display: flex;
+flex-direction: column;
+
+
+}
 .eject-button {
-  padding: 0.5em 1em;
+  padding: 0.2em 1em;
   font-size: 0.8em;
   cursor: pointer;
   border: 1px solid #87857B;
@@ -174,16 +189,21 @@ header {
   background-color: #e0e0e0;
 }
 
-.download button {
-  padding: 0.5em 1em;
+#downloadJsonButton,
+#CopyJsonButton
+{
+  margin: 5px;
+  padding: 0.3em 1em;
   font-size: 0.8em;
   cursor: pointer;
   border: 1px solid #87857B;
   border-radius: 3px;
-  background-color: #FFF;
+  background-color: #6c6a63;
 }
 
-.download button:hover {
+#downloadJsonButton:hover,
+#CopyJsonButton:hover
+{
   background-color: #e0e0e0;
 }
 
@@ -224,8 +244,8 @@ header {
 }
 
 #applySelectionButton {
-  padding: 0.5em 1em;
-  font-size: 0.9em;
+  padding: 0.2em 1em;
+  font-size: 0.8em;
   cursor: pointer;
   border: 1px solid #87857B;
   border-radius: 3px;
