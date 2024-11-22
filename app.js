@@ -151,10 +151,11 @@ document.addEventListener('DOMContentLoaded', function () {
       colorDiv.textContent = hex;
       colorDiv.style.backgroundColor = hex;
       colorDiv.style.color = '#fff';
+      colorDiv.style.fontSize = '.7em'
       colorDiv.style.padding = '5px';
       colorDiv.style.marginBottom = '2px';
       colorDiv.style.cursor = 'pointer';
-      colorDiv.style.textAlign = 'center';
+      colorDiv.style.textAlign = 'left';
 
       // Add click event to copy hex code
       colorDiv.addEventListener('click', function () {
