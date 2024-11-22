@@ -27,30 +27,33 @@ header {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto auto auto;
-  gap: 0.5em;
-  align-items: center;
-  flex-wrap: wrap;
+  gap: 1rem;  /* Increased from 0.5em for better spacing */
+  align-items: start;  /* Changed from center to better align content */
+  padding: 1rem;  /* Added padding around the entire grid */
+  max-width: 1200px;  /* Added max-width to prevent stretching on large screens */
+  margin: 0 auto;  /* Center the grid */
 }
 
 .Headsection-1,
 .Headsection-2,
 .Headsection-3,
-.Headsection-4
-
-{
+.Headsection-4 {
   border: 1px solid #35342A;
-  padding: 5px;
+  padding: 1rem;  /* Increased padding */
+  background: #fff;  /* Added background */
+  border-radius: 4px;  /* Added rounded corners */
+  min-height: 100%;  /* Ensure consistent height */
 }
 
 /* HeadTag spans all columns */
 .HeadTag {
   grid-column: 1 / -1;
-  font-size: 2em;
-  font-weight: bold;
-  color: #D8DCD2;
+  font-size: 2.5em;  /* Slightly larger */
+  font-weight: lighter;
+  color: #35342A;  /* Changed to match your color scheme */
   border-bottom: 2px solid #BDC2C6;
-  padding-bottom: 0.2em;
-  margin-bottom: .3em;
+  padding: 0.2em 0;  /* Added vertical padding */
+  margin-bottom: .5em;
   text-align: center;
 }
 
@@ -59,21 +62,16 @@ header {
   display: flex;
   align-items: flex-start;
   justify-content: left;
+  margin-bottom: .5em;
 }
 
 .Modulus {
   display: flex;
   align-items: center;
   justify-content: left;
+  margin-bottom: .5em;
 }
 
-
-
-.download {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .sample {
   margin: .2em;
@@ -168,10 +166,12 @@ header {
   margin: 0;
 }
 
-/* Controls styles */
 .controls {
   display: flex;
-flex-direction: column;
+  gap: 0.5rem;  /* Space between buttons */
+  justify-content: center;
+  align-items: center;
+}
 
 
 }
@@ -209,6 +209,7 @@ flex-direction: column;
 
 /* Information styles */
 .infoText, .infoText-copy {
+  margin-bottom: .5em;
   font-size: 0.9em;
 }
 
@@ -403,10 +404,13 @@ footer summary {
   }
 
   .HeadCont {
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: auto auto auto auto;
+    grid-template-columns: 1fr;  /* Stack on mobile */
+    gap: 0.8rem;
+    padding: 0.8rem;
   }
-
+  .HeadTag {
+    font-size: 2em;
+  }
   .keypad-container {
     grid-column: 1 / -1;
   }
